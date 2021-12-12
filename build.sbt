@@ -12,5 +12,14 @@ lazy val root = (project in file("."))
       "-feature",
       "-deprecation",
       "-Xfatal-warnings"
-    )
+    ),
+    javaOptions in Universal ++= Seq(
+      // JVM memory tuning
+      "-J-Xmx1024m",
+      "-J-Xms512m"
+    ),
+    dockerExposedPorts := Seq(8080, 8080),
+    dockerEntrypoint := Seq(""),
+    dockerBaseImage := "openjdk:11.0.6-jre-slim",
+    dockerEntrypoint := Seq("/opt/docker/bin/big-johns-music-village", "-Dplay.server.pidfile.path=/dev/null", "-Dconfig.resource=application.prod.conf")
   )
